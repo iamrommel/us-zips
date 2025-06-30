@@ -16,6 +16,8 @@ This project provides a GraphQL API for querying US ZIP code information.
 
 ## Docker
 
+### Local Development
+
 1.  Build the Docker image:
     ```bash
     docker build -t us-zips .
@@ -26,26 +28,36 @@ This project provides a GraphQL API for querying US ZIP code information.
     docker run -p 4000:4000 us-zips
     ```
 
-## Example Queries
+### Deployment to Docker Hub
 
-### Get ZIP by Code
+1.  Make the deployment script executable:
+    ```bash
+    chmod +x scripts/deploy.sh
+    ```
 
-```graphql
-{
-  getZipByCode(zip: "90210") {
-    city
-    state_name
-  }
-}
-```
+2.  Set your Docker Hub password as an environment variable:
+    ```bash
+    export DOCKER_PASSWORD=your_dockerhub_password
+    ```
 
-### Get ZIPs by State
+3.  Run the deployment script (optionally specify a version):
+    ```bash
+    # Deploy as 'latest'
+    ./scripts/deploy.sh
+    
+    # Or specify a version
+    ./scripts/deploy.sh 1.0.0
+    ```
 
-```graphql
-{
-  getZipsByState(state_name: "California") {
-    zip
-    city
-  }
-}
-```
+4.  Pull and run the deployed image:
+    ```bash
+    docker run -p 4000:4000 iamrommel/us-zips:latest
+    # or with a specific version
+    docker run -p 4000:4000 iamrommel/us-zips:1.0.0
+    ```
+
+## End Points
+/address/zip/{zipCode} - Returns the address for a given ZIP code.
+/address/state/{stateId} - Returns the address for a given state ID. 
+
+ 
