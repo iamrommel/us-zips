@@ -18,8 +18,6 @@
     "@types/cors": "^2.8.19",
     "cors": "^2.8.5",
     "express": "^5.1.0",
-    "express-graphql": "^0.12.0",
-    "graphql": "^15.10.1",
     "papaparse": "^5.5.3"
   },
   "devDependencies": {

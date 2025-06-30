@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { ErrorRequestHandler, NextFunction } from 'express'
 import cors from 'cors'
 import { setupAddressRoutes } from './controllers/address/router'
 
@@ -29,6 +29,17 @@ app.use('/address/', setupAddressRoutes())
 app.use((req, res) => {
   res.status(404).json({ error: 'Not Found' })
 })
+
+// Global error handler (must be last)
+const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
+  console.error(err.stack)
+  res.status(500).json({
+    message: err.message,
+    code: err.code,
+  })
+}
+
+app.use(errorHandler)
 
 // Start server
 app.listen(PORT, () => {
