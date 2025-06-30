@@ -5,7 +5,7 @@ This file helps tailor Gemini's behavior to your specific project needs and pref
 ## User Preferences
 
 - **Preferred Coding Style:** (e.g., "Follow Google's TypeScript style guide.")
-- **Commonly Used Commands:** (e.g., "npm run test", "npm run dev:panelpunches")
+- **Commonly Used Commands:** (e.g., "npm run test", "npm run dev")
 - **Other Preferences:** (e.g., "Always use yarn instead of npm.")
 - **Commit Workflow:** When the user types `commit`, automatically generate a commit message for file changes (in plain text format, without line numbers) and ask for confirmation before committing.
 
