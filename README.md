@@ -14,6 +14,24 @@ This project provides a GraphQL API for querying US ZIP code information.
     npm run dev
     ```
 
+## GitHub Actions Setup
+
+### Docker Hub Authentication
+
+1. **Create a Docker Hub Access Token**
+   - Go to [Docker Hub Account Settings](https://hub.docker.com/settings/security)
+   - Click "New Access Token"
+   - Give it a name (e.g., "github-actions")
+   - Set permissions to "Read, Write, Delete"
+   - Copy the generated token
+
+2. **Add GitHub Repository Secrets**
+   - Go to your GitHub repository Settings > Secrets and variables > Actions
+   - Click "New repository secret"
+   - Add these secrets:
+     - `DOCKERHUB_USERNAME`: Your Docker Hub username (iamrommel)
+     - `DOCKERHUB_TOKEN`: The access token you just created
+
 ## Docker
 
 ### Local Development
