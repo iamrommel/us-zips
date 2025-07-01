@@ -34,8 +34,10 @@ app.use((req, res) => {
 //Dont remove the next args, it will be automatically called by express5
 const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   res.status(200).json({
-    message: err.message,
-    code: err.code,
+    error: {
+      message: err.message,
+      code: err.code,
+    },
   })
 }
 
