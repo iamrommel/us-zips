@@ -31,9 +31,9 @@ app.use((req, res) => {
 })
 
 // Global error handler (must be last)
-const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
+const errorHandler: ErrorRequestHandler = (err, req, res) => {
   console.error(err.stack)
-  res.status(500).json({
+  res.status(200).json({
     message: err.message,
     code: err.code,
   })
