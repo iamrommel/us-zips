@@ -1,4 +1,4 @@
-import express, { ErrorRequestHandler, NextFunction } from 'express'
+import express, { ErrorRequestHandler } from 'express'
 import cors from 'cors'
 import { setupAddressRoutes } from './controllers/address/router'
 
@@ -31,8 +31,8 @@ app.use((req, res) => {
 })
 
 // Global error handler (must be last)
-const errorHandler: ErrorRequestHandler = (err, req, res) => {
-  console.error(err.stack)
+//Dont remove the next args, it will be automatically called by express5
+const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   res.status(200).json({
     message: err.message,
     code: err.code,
