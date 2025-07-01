@@ -65,13 +65,58 @@ export async function getAddressByZip(zip: string) {
   }
 
   const data = await getAddress()
-  const result = data.find((row) => row.zip === zip)
+  let result = data.find((row) => row.zip === zip)
+
+  //try to get from external data source
+  if (!result) {
+    result = await getFromZipopotamus(zip)
+
+    //if there is a value for result, we need to add it to the file and cache
+    if (result) {
+      addToAddressList(result)
+    }
+  }
 
   if (!result) {
     throw new Error('Zip code not found')
   }
 
   return result
+}
+
+function addToAddressList(address: Address) {
+  //no need to add if there is no cached data
+  if (cachedData === null) return
+
+  //we need to add the cached
+  cachedData.push(address)
+
+  //we write to the file
+  //fs.writeFileSync(csvFilePath, Papa.unparse(cachedData))
+}
+
+async function getFromZipopotamus(zip: string): Promise<Address | undefined> {
+  const url = `http://api.zippopotam.us/us/${zip}`
+  const fetchResponse = await fetch(url)
+  const response = await fetchResponse.json()
+  //response result is like this
+  // {"country": "United States", "country abbreviation": "US", "post code": "59625",
+  // "places": [{"place name": "Helena", "longitude": "-112.0413", "latitude": "46.6018", "state": "Montana", "state abbreviation": "MT"}]}
+
+  //if there is no result, return null
+  if (response['places'].length === 0) {
+    return
+  }
+
+  //we just grab the first one from the places array, and map it to our Address interface
+  return {
+    zip: response['post code'],
+    lat: response['places'][0]['latitude'],
+    lng: response['places'][0]['longitude'],
+    city: response['places'][0]['place name'],
+    state_id: response['places'][0]['state abbreviation'],
+    state_name: response['places'][0]['state'],
+  }
 }
 
 export async function getZipsByState(stateId: string) {
